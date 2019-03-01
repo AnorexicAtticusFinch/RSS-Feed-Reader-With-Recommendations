@@ -1,18 +1,16 @@
 class article:
 
-    def __init__(self):
+    def __init__(self, title: str, description: str, link: str):
 
         """
         Takes initial values from the parameter and gives them to the data members
         """
 
-        #title
-        #description
-        #link
+        self.title = title
+        self.description = description
+        self.link = link
 
-        pass
-
-    def __eq__(self, article_2):
+    def __eq__(self, article_2: article) -> bool:
 
         """
         Operator overloading for ==
@@ -20,28 +18,31 @@ class article:
         Compares links
         """
 
-        pass
+        return self.link == article_2.link
     
-    def __str__(self):
+    def __str__(self) -> str:
 
         """
         Defines behavior for str() and print()
         Returns a string
         """
 
-        pass
+        return self.title + "\n" + self.description + "\n"
 
-    def open_link(self):
+    def open_link(self): #NEEDS TO BE TESTED
 
         """
         Opens browser window and opens the article page using the selenium package
         """
 
-        pass
+        from selenium import webdriver
+
+        browser = webdriver.Chrome()
+        browser.get(self.link)
         
 class feed_source:
 
-    def __init__(self):
+    def __init__(self, name: str, link: str, description: str = ""):
 
         """
         Takes initial values from the parameter and gives them to the data members
@@ -49,14 +50,14 @@ class feed_source:
         Obtains atmost 10 articles from the saved xml file
         """
 
-        #rss link
-        #list of articles - 10 - list
-        #category
-        #xml code saved path
+        self.name = name
+        self.link = link
+        self.description = description
+        self.get_xml_file()
+        self.articles = self.get_articles(10)
 
-        pass
 
-    def __eq__(self, source_2):
+    def __eq__(self, source_2: feed_source) -> bool:
 
         """
         Operator overloading for ==
@@ -64,27 +65,36 @@ class feed_source:
         Compares rss links
         """
 
-        pass
+        return self.link == source_2.link
 
-    def __str__(self):
+    def __str__(self) -> str:
 
         """
         Defines behavior for str() and print()
         Returns a string
         """
 
+        if self.description != "":
+            return self.name + "\n" + self.description + "\n"
+        else:
+            return self.name + "\n"
+
+    def open_file(self): #TO DO
+        pass
+
+    def close_file(self, file): #TO DO
         pass
     
-    def get_xml_file(self):
+    def get_xml_file(self): #TO DO
 
         """
         Downloads xml file from the rss link
-        Returns the entire xml file
+        Saves the entire xml file as source_name.txt
         """
 
         pass
     
-    def get_titles(self, num):
+    def get_titles(self, num: int) -> "list of strs": #TO DO
 
         """
         Obtains "num" titles from the saved xml file by searching for the title tag
@@ -93,7 +103,7 @@ class feed_source:
 
         pass
 
-    def get_links(self, num):
+    def get_links(self, num: int) -> "list of strs": #TO DO
         
         """
         Obtains "num" links from the saved xml file by searching for the link tag
@@ -102,7 +112,7 @@ class feed_source:
 
         pass
 
-    def get_descriptions(self, num):
+    def get_descriptions(self, num: int) -> "list of strs": #TO DO
         
         """
         Obtains "num" descriptions from the saved xml file by searching for the description tag
@@ -111,7 +121,7 @@ class feed_source:
 
         pass
     
-    def get_articles(self, num):
+    def get_articles(self, num: int) -> "list of articles": #TO DO
 
         """
         Obtains "num" articles from the saved xml file using get_titles(), get_links() and get_description()
@@ -120,7 +130,7 @@ class feed_source:
 
         pass
     
-    def update_articles(self):
+    def update_articles(self): #TO DO
 
         """
         Checks for any new articles by comparing the list returned by get_titles() and the titles in the saved list of articles and
