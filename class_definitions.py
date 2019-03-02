@@ -111,120 +111,47 @@ class Feed_Source:
 
         pass
     
-
-    def get_titles(self, num: int) -> "list of strs": #NEEDS TO BE TESTED
-
-        """
-        Obtains "num" titles from the saved xml file by searching for the title tag
-        Returns a list of "num" titles
-        """
-
-        file = self.open_file()
-        titles = []
-        num_titles = 0
-        flag = False
-        title = ""
-
-        for line in file:
-            while num_titles <= num:
-                if flag:
-                    if "</title>" in line:
-                        title += line[ : line.find("</title>")]
-                        titles.append(title)
-                        flag = False
-                        num_titles += 1
-                        title = ""
-                    else:
-                        title += line
-
-                if "<title>" in line:
-                    flag = True
-                    if "</title>" in line:
-                        title += line[line.find("<title>") + len("<title>") : line.find("</title>")]
-                        titles.append(title)
-                        flag = False
-                        num_titles += 1
-                        title = ""
-        
-        self.close_file(file)
-        return titles
-
-
-    def get_links(self, num: int) -> "list of strs": #NEEDS TO BE TESTED
-        
-        """
-        Obtains "num" links from the saved xml file by searching for the link tag
-        Returns a list of "num" links
-        """
-
-        file = self.open_file()
-        links = []
-        num_links = 0
-        flag = False
-        link = ""
-
-        for line in file:
-            while num_links <= num:
-                if flag:
-                    if "</link>" in line:
-                        link += line[ : line.find("</link>")]
-                        links.append(link)
-                        flag = False
-                        num_links += 1
-                        link = ""
-                    else:
-                        link += line
-
-                if "<link>" in line:
-                    flag = True
-                    if "</link>" in line:
-                        link += line[line.find("<link>") + len("<link>") : line.find("</link>")]
-                        links.append(link)
-                        flag = False
-                        num_links += 1
-                        link = ""
-        
-        self.close_file(file)
-        return links
-
-
-    def get_descriptions(self, num: int) -> "list of strs": #NEEDS TO BE TESTED
-        
-        """
-        Obtains "num" descriptions from the saved xml file by searching for the description tag
-        Returns a list of "num" descriptions
-        """
-
-        file = self.open_file()
-        descs = []
-        num_descs = 0
-        flag = False
-        desc = ""
-
-        for line in file:
-            while num_descs <= num:
-                if flag:
-                    if "</description>" in line:
-                        desc += line[ : line.find("</desc>")]
-                        descs.append(desc)
-                        flag = False
-                        num_descs += 1
-                        desc = ""
-                    else:
-                        desc += line
-
-                if "<desc>" in line:
-                    flag = True
-                    if "</desc>" in line:
-                        desc += line[line.find("<description>") + len("<description>") : line.find("</description>")]
-                        descs.append(desc)
-                        flag = False
-                        num_descs += 1
-                        desc = ""
-        
-        self.close_file(file)
-        return descs
     
+    def get_instances(self, num: int, tag: str) -> "list of strs": #NEEDS TO BE TESTED
+
+        """
+        Obtains "num" instances from the saved xml file by searching for the instance tag
+        Returns a list of "num" instances
+        """
+
+        start_tag = "<" + tag + ">"
+        end_tag = "</" + tag + ">"
+
+        file = self.open_file()
+        instances = []
+        num_instances = 0
+        flag = False
+        instance = ""
+
+        for line in file:
+            while num_instances <= num:
+                if flag:
+                    if end_tag in line:
+                        instance += line[ : line.find(end_tag)]
+                        instances.append(instance)
+                        flag = False
+                        num_instances += 1
+                        instance = ""
+                    else:
+                        instance += line
+
+                if start_tag in line:
+                    flag = True
+                    if end_tag in line:
+                        instance += line[line.find(start_tag) + len(start_tag) : line.find(end_tag)]
+                        instances.append(instance)
+                        flag = False
+                        num_instances += 1
+                        instance = ""
+        
+        self.close_file(file)
+        return instances
+   
 
     def get_articles(self, num: int) -> "list of articles": #NEEDS TO BE TESTED
 
@@ -233,10 +160,10 @@ class Feed_Source:
         Returns a list of "num" articles
         """
 
-        titles = self.get_titles(num)
+        titles = self.get_instances(num, "title")
         num = len(titles)
-        descs = self.get_descriptions(num)
-        links = self.get_links(num)
+        descs = self.get_instances(num, "description")
+        links = self.get_instances(num, "link")
 
         articles = []
         for _ in range(num):
@@ -254,7 +181,7 @@ class Feed_Source:
         """
 
         self.get_xml_file()
-        new_titles = self.get_titles(10)
+        new_titles = self.get_instances(10, "title")
         new_articles_num = 0
 
         for _ in range(10):
