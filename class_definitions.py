@@ -1,4 +1,4 @@
-class article:
+class Article:
 
     def __init__(self, title: str, description: str, link: str):
 
@@ -10,7 +10,8 @@ class article:
         self.description = description
         self.link = link
 
-    def __eq__(self, article_2: article) -> bool:
+
+    def __eq__(self, article_2: Article) -> bool:
 
         """
         Operator overloading for ==
@@ -20,6 +21,7 @@ class article:
 
         return self.link == article_2.link
     
+
     def __str__(self) -> str:
 
         """
@@ -28,6 +30,7 @@ class article:
         """
 
         return self.title + "\n" + self.description + "\n"
+
 
     def open_link(self): #NEEDS TO BE TESTED
 
@@ -40,7 +43,9 @@ class article:
         browser = webdriver.Chrome()
         browser.get(self.link)
         
-class feed_source:
+
+
+class Feed_Source:
 
     def __init__(self, name: str, link: str, description: str = ""):
 
@@ -57,7 +62,7 @@ class feed_source:
         self.articles = self.get_articles(10)
 
 
-    def __eq__(self, source_2: feed_source) -> bool:
+    def __eq__(self, source_2: Feed_Source) -> bool:
 
         """
         Operator overloading for ==
@@ -66,6 +71,7 @@ class feed_source:
         """
 
         return self.link == source_2.link
+
 
     def __str__(self) -> str:
 
@@ -79,6 +85,7 @@ class feed_source:
         else:
             return self.name + "\n"
 
+
     def open_file(self):
 
         """
@@ -89,10 +96,12 @@ class feed_source:
         file = open(self.name + ".txt", "r")
         return file
 
+
     def close_file(self, file):
         
         file.close()
     
+
     def get_xml_file(self): #TO DO
 
         """
@@ -102,6 +111,7 @@ class feed_source:
 
         pass
     
+
     def get_titles(self, num: int) -> "list of strs": #NEEDS TO BE TESTED
 
         """
@@ -177,6 +187,7 @@ class feed_source:
         self.close_file(file)
         return links
 
+
     def get_descriptions(self, num: int) -> "list of strs": #NEEDS TO BE TESTED
         
         """
@@ -214,16 +225,27 @@ class feed_source:
         self.close_file(file)
         return descs
     
-    def get_articles(self, num: int) -> "list of articles": #TO DO
+
+    def get_articles(self, num: int) -> "list of articles": #NEEDS TO BE TESTED
 
         """
         Obtains "num" articles from the saved xml file using get_titles(), get_links() and get_description()
         Returns a list of "num" articles
         """
 
-        pass
+        titles = self.get_titles(num)
+        num = len(titles)
+        descs = self.get_descriptions(num)
+        links = self.get_links(num)
+
+        articles = []
+        for _ in range(num):
+            articles.append(Article(titles[_], descs[_], links[_]))
+        
+        return articles
     
-    def update_articles(self): #TO DO
+
+    def update_articles(self): #NEEDS TO BE TESTED
 
         """
         Checks for any new articles by comparing the list returned by get_titles() and the titles in the saved list of articles and
@@ -231,4 +253,21 @@ class feed_source:
         Calls get_articles() using the number of new articles and updates the saved list of articles
         """
 
-        pass
+        self.get_xml_file()
+        new_titles = self.get_titles(10)
+        new_articles_num = 0
+
+        for _ in range(10):
+            if new_titles[_] == self.articles[_].title:
+                break
+            else:
+                new_articles_num += 1
+            
+        if new_articles_num == 0:
+            return
+
+        new_articles = self.get_articles(new_articles_num)
+
+        for article in new_articles:
+            self.articles.pop()
+            self.articles.insert(0, article)
