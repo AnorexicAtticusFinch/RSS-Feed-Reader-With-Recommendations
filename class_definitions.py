@@ -79,11 +79,19 @@ class feed_source:
         else:
             return self.name + "\n"
 
-    def open_file(self): #TO DO
-        pass
+    def open_file(self):
 
-    def close_file(self, file): #TO DO
-        pass
+        """
+        Opens source_name.txt in read only mode
+        Returns the file object
+        """
+        
+        file = open(self.name + ".txt", "r")
+        return file
+
+    def close_file(self, file):
+        
+        file.close()
     
     def get_xml_file(self): #TO DO
 
@@ -94,32 +102,117 @@ class feed_source:
 
         pass
     
-    def get_titles(self, num: int) -> "list of strs": #TO DO
+    def get_titles(self, num: int) -> "list of strs": #NEEDS TO BE TESTED
 
         """
         Obtains "num" titles from the saved xml file by searching for the title tag
         Returns a list of "num" titles
         """
 
-        pass
+        file = self.open_file()
+        titles = []
+        num_titles = 0
+        flag = False
+        title = ""
 
-    def get_links(self, num: int) -> "list of strs": #TO DO
+        for line in file:
+            while num_titles <= num:
+                if flag:
+                    if "</title>" in line:
+                        title += line[ : line.find("</title>")]
+                        titles.append(title)
+                        flag = False
+                        num_titles += 1
+                        title = ""
+                    else:
+                        title += line
+
+                if "<title>" in line:
+                    flag = True
+                    if "</title>" in line:
+                        title += line[line.find("<title>") + len("<title>") : line.find("</title>")]
+                        titles.append(title)
+                        flag = False
+                        num_titles += 1
+                        title = ""
+        
+        self.close_file(file)
+        return titles
+
+
+    def get_links(self, num: int) -> "list of strs": #NEEDS TO BE TESTED
         
         """
         Obtains "num" links from the saved xml file by searching for the link tag
         Returns a list of "num" links
         """
 
-        pass
+        file = self.open_file()
+        links = []
+        num_links = 0
+        flag = False
+        link = ""
 
-    def get_descriptions(self, num: int) -> "list of strs": #TO DO
+        for line in file:
+            while num_links <= num:
+                if flag:
+                    if "</link>" in line:
+                        link += line[ : line.find("</link>")]
+                        links.append(link)
+                        flag = False
+                        num_links += 1
+                        link = ""
+                    else:
+                        link += line
+
+                if "<link>" in line:
+                    flag = True
+                    if "</link>" in line:
+                        link += line[line.find("<link>") + len("<link>") : line.find("</link>")]
+                        links.append(link)
+                        flag = False
+                        num_links += 1
+                        link = ""
+        
+        self.close_file(file)
+        return links
+
+    def get_descriptions(self, num: int) -> "list of strs": #NEEDS TO BE TESTED
         
         """
         Obtains "num" descriptions from the saved xml file by searching for the description tag
         Returns a list of "num" descriptions
         """
 
-        pass
+        file = self.open_file()
+        descs = []
+        num_descs = 0
+        flag = False
+        desc = ""
+
+        for line in file:
+            while num_descs <= num:
+                if flag:
+                    if "</description>" in line:
+                        desc += line[ : line.find("</desc>")]
+                        descs.append(desc)
+                        flag = False
+                        num_descs += 1
+                        desc = ""
+                    else:
+                        desc += line
+
+                if "<desc>" in line:
+                    flag = True
+                    if "</desc>" in line:
+                        desc += line[line.find("<description>") + len("<description>") : line.find("</description>")]
+                        descs.append(desc)
+                        flag = False
+                        num_descs += 1
+                        desc = ""
+        
+        self.close_file(file)
+        return descs
     
     def get_articles(self, num: int) -> "list of articles": #TO DO
 
