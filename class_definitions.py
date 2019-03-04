@@ -86,14 +86,14 @@ class Feed_Source:
             return self.name + "\n"
 
 
-    def open_file(self):
+    def open_file(self, mode: str = "r"):
 
         """
         Opens source_name.txt in read only mode
         Returns the file object
         """
         
-        file = open(self.name + ".txt", "r")
+        file = open(self.name + ".txt", mode)
         return file
 
 
@@ -102,14 +102,19 @@ class Feed_Source:
         file.close()
     
 
-    def get_xml_file(self): #TO DO
+    def get_xml_file(self):
 
         """
         Downloads xml file from the rss link
         Saves the entire xml file as source_name.txt
         """
 
-        pass
+        from urllib import request
+
+        xml_file = request.urlopen(self.link)
+        file = self.open_file("w")
+        file.write(str(xml_file.read()))
+        self.close_file(file)
     
     
     def get_instances(self, num: int, tag: str) -> "list of strs": #NEEDS TO BE TESTED
@@ -129,7 +134,7 @@ class Feed_Source:
         instance = ""
 
         for line in file:
-            while num_instances <= num:
+            if num_instances <= num+1 and num_instances > 1:
                 if flag:
                     if end_tag in line:
                         instance += line[ : line.find(end_tag)]
@@ -148,6 +153,9 @@ class Feed_Source:
                         flag = False
                         num_instances += 1
                         instance = ""
+            else:
+                if num_instances > 1:
+                    break
         
         self.close_file(file)
         return instances
