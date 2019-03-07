@@ -11,7 +11,7 @@ class Article:
         self.link = link
 
 
-    def __eq__(self, article_2: Article) -> bool:
+    def __eq__(self, article_2) -> bool:
 
         """
         Operator overloading for ==
@@ -32,7 +32,7 @@ class Article:
         return self.title + "\n" + self.description + "\n"
 
 
-    def open_link(self): #NEEDS TO BE TESTED
+    def open_link(self):
 
         """
         Opens browser window and opens the article page using the selenium package
@@ -42,12 +42,13 @@ class Article:
 
         browser = webdriver.Chrome()
         browser.get(self.link)
+        #input()
         
 
 
 class Feed_Source:
 
-    def __init__(self, name: str, link: str, description: str = ""):
+    def __init__(self, name: str, link: str):
 
         """
         Takes initial values from the parameter and gives them to the data members
@@ -57,12 +58,12 @@ class Feed_Source:
 
         self.name = name
         self.link = link
-        self.description = description
+        self.description = self.get_description()
         self.get_xml_file()
         self.articles = self.get_articles(10)
 
 
-    def __eq__(self, source_2: Feed_Source) -> bool:
+    def __eq__(self, source_2) -> bool:
 
         """
         Operator overloading for ==
@@ -81,8 +82,10 @@ class Feed_Source:
         """
 
         if self.description != "":
+
             return self.name + "\n" + self.description + "\n"
         else:
+
             return self.name + "\n"
 
 
@@ -117,7 +120,7 @@ class Feed_Source:
         self.close_file(file)
     
     
-    def get_instances(self, num: int, tag: str) -> "list of strs": #NEEDS TO BE TESTED
+    def get_instances(self, num: int, tag: str) -> "list of strs":
 
         """
         Obtains "num" instances from the saved xml file by searching for the instance tag
@@ -130,36 +133,45 @@ class Feed_Source:
         file = self.open_file()
         instances = []
         num_instances = 0
-        flag = False
-        instance = ""
+        line = file.read()
 
-        for line in file:
-            if num_instances <= num+1 and num_instances > 1:
-                if flag:
-                    if end_tag in line:
-                        instance += line[ : line.find(end_tag)]
-                        instances.append(instance)
-                        flag = False
-                        num_instances += 1
-                        instance = ""
-                    else:
-                        instance += line
+        while num_instances < num:
 
-                if start_tag in line:
-                    flag = True
-                    if end_tag in line:
-                        instance += line[line.find(start_tag) + len(start_tag) : line.find(end_tag)]
-                        instances.append(instance)
-                        flag = False
-                        num_instances += 1
-                        instance = ""
-            else:
-                if num_instances > 1:
-                    break
+            if line == "":
+
+                break
+
+            if start_tag in line:
+                
+                instance = line[line.find(start_tag) + len(start_tag) : line.find(end_tag)]
+                line = line[line.find(end_tag) + len(end_tag) : ]
+                instances.append(instance)
+                num_instances += 1
         
         self.close_file(file)
         return instances
    
+    def get_instances_from_items(self, items: "list of str", tag: str) -> "list of str": #NEEDS TO BE TESTED
+
+        start_tag = "<" + tag + ">"
+        does_not_exist_tag = "<" + tag + "/>"
+        end_tag = "</" + tag + ">"
+
+        instances = []
+
+        for item in items:
+
+            if does_not_exist_tag in item:
+
+                instances.append("")
+
+            if start_tag in item:
+
+                instance = item[item.find(start_tag) + len(start_tag) : item.find(end_tag)]
+                instances.append(instance)
+                            
+        return instances
+
 
     def get_articles(self, num: int) -> "list of articles": #NEEDS TO BE TESTED
 
@@ -168,13 +180,14 @@ class Feed_Source:
         Returns a list of "num" articles
         """
 
-        titles = self.get_instances(num, "title")
-        num = len(titles)
-        descs = self.get_instances(num, "description")
-        links = self.get_instances(num, "link")
+        items = self.get_instances(num, "item")
+        titles = self.get_instances_from_items(items, "title")
+        descs = self.get_instances_from_items(items, "description")
+        links = self.get_instances_from_items(items, "link")
 
         articles = []
-        for _ in range(num):
+        for _ in range(len(items)):
+
             articles.append(Article(titles[_], descs[_], links[_]))
         
         return articles
@@ -189,20 +202,28 @@ class Feed_Source:
         """
 
         self.get_xml_file()
-        new_titles = self.get_instances(10, "title")
+        new_titles = self.get_instances(12, "title")
         new_articles_num = 0
 
-        for _ in range(10):
+        for _ in range(2, 12):
+
             if new_titles[_] == self.articles[_].title:
                 break
             else:
                 new_articles_num += 1
             
         if new_articles_num == 0:
+
             return
 
         new_articles = self.get_articles(new_articles_num)
 
         for article in new_articles:
+
             self.articles.pop()
             self.articles.insert(0, article)
+
+    
+    def get_description(self) -> str:
+
+        return self.get_instances(1, "description")
