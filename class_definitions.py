@@ -6,8 +6,8 @@ class Article:
         Takes initial values from the parameter and gives them to the data members
         """
 
-        self.title = title
-        self.description = description
+        self.title = self.parse(title)
+        self.description = self.parse(description)
         self.link = link
 
 
@@ -22,7 +22,7 @@ class Article:
         return self.link == article_2.link
     
 
-    def __str__(self) -> str:
+    def __str__(self) -> str: #NEEDS TO BE TESTED
 
         """
         Defines behavior for str() and print()
@@ -42,7 +42,12 @@ class Article:
 
         browser = webdriver.Chrome()
         browser.get(self.link)
-        #input()
+        #input() #NEEDS TO BE TESTED AT THE END
+
+    
+    def parse(self, text: str) -> str:
+
+        return text.replace("\\", "").replace("amp;", "")           
         
 
 
@@ -74,7 +79,7 @@ class Feed_Source:
         return self.link == source_2.link
 
 
-    def __str__(self) -> str:
+    def __str__(self) -> str: #NEEDS TO BE TESTED
 
         """
         Defines behavior for str() and print()
@@ -137,21 +142,26 @@ class Feed_Source:
 
         while num_instances < num:
 
-            if line == "":
-
-                break
-
             if start_tag in line:
                 
                 instance = line[line.find(start_tag) + len(start_tag) : line.find(end_tag)]
                 line = line[line.find(end_tag) + len(end_tag) : ]
                 instances.append(instance)
                 num_instances += 1
+            
+            else:
+
+                break
         
+        if len(instances) == 0:
+
+            instances.append("")
+
         self.close_file(file)
         return instances
    
-    def get_instances_from_items(self, items: "list of str", tag: str) -> "list of str": #NEEDS TO BE TESTED
+
+    def get_instances_from_items(self, items: "list of str", tag: str) -> "list of str":
 
         start_tag = "<" + tag + ">"
         does_not_exist_tag = "<" + tag + "/>"
@@ -165,15 +175,23 @@ class Feed_Source:
 
                 instances.append("")
 
-            if start_tag in item:
+            elif start_tag in item:
 
                 instance = item[item.find(start_tag) + len(start_tag) : item.find(end_tag)]
                 instances.append(instance)
+            
+            else:
+
+                instances.append("")
+
+        if len(instances) == 0:
+
+            instances.append("")
                             
         return instances
 
 
-    def get_articles(self, num: int) -> "list of articles": #NEEDS TO BE TESTED
+    def get_articles(self, num: int) -> "list of articles":
 
         """
         Obtains "num" articles from the saved xml file using get_titles(), get_links() and get_description()
@@ -193,7 +211,7 @@ class Feed_Source:
         return articles
     
 
-    def update_articles(self): #NEEDS TO BE TESTED
+    def update_articles(self):
 
         """
         Checks for any new articles by comparing the list returned by get_titles() and the titles in the saved list of articles and
@@ -205,7 +223,12 @@ class Feed_Source:
         new_titles = self.get_instances(12, "title")
         new_articles_num = 0
 
-        for _ in range(2, 12):
+        if(len(new_titles) > len(self.articles)):
+
+            self.articles = self.get_articles(len(new_titles))
+            return
+
+        for _ in range(2, len(new_titles)):
 
             if new_titles[_] == self.articles[_].title:
                 break
