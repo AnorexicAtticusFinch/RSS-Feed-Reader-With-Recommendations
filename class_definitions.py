@@ -63,8 +63,9 @@ class Feed_Source:
 
         self.name = name
         self.link = link
-        self.description = self.get_description()
         self.get_xml_file()
+        self.title = self.get_title()
+        self.description = self.get_description()
         self.articles = self.get_articles(10)
 
 
@@ -250,3 +251,7 @@ class Feed_Source:
     def get_description(self) -> str:
 
         return self.get_instances(1, "description")
+
+    def get_title(self) -> str:
+
+        return self.get_instances(1, "title")
