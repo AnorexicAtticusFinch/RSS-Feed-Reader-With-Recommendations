@@ -1,3 +1,27 @@
+def update_feature_vector(xml_file : str) -> "list of floats": #NEEDS TO BE TESTED
+
+    xml_file = xml_file.lower()
+    file_categories = open("list_of_categories.txt", "r")
+    vector = []
+
+    for category in file_categories:
+            
+        vector.append(0)
+        file_keywords = open(category + ".txt", "r")
+
+        for keyword in file_keywords:
+
+            vector[-1] += xml_file.count(keyword)
+        
+        file_keywords.close()
+    
+    file_categories.close()
+    total_count = sum(vector)
+    vector = [element / total_count for element in vector]
+    return vector
+
+
+
 class Article:
 
     def __init__(self, title: str, description: str, link: str):
@@ -47,7 +71,7 @@ class Article:
     
     def parse(self, text: str) -> str:
 
-        return text.replace("\\", "").replace("amp;", "")           
+        return text.replace("\\", "").replace("amp;", "").replace("![CDATA[", "").replace(" ]]", "")           
         
 
 
@@ -67,6 +91,9 @@ class Feed_Source:
         self.title = self.get_title()
         self.description = self.get_description()
         self.articles = self.get_articles(10)
+        file = self.open_file()
+        self.feature_vector = update_feature_vector(file.read())
+        self.close_file(file)
 
 
     def __eq__(self, source_2) -> bool:
@@ -118,11 +145,12 @@ class Feed_Source:
         Saves the entire xml file as source_name.txt
         """
 
-        from urllib import request
+        import urllib3
+        import certifi
 
-        xml_file = request.urlopen(self.link)
+        xml_file = urllib3.PoolManager(cert_reqs = "CERT_REQUIRED", ca_certs = certifi.where()).request("get", self.link)
         file = self.open_file("w")
-        file.write(str(xml_file.read()))
+        file.write(str(xml_file.data))
         self.close_file(file)
     
     
@@ -246,13 +274,17 @@ class Feed_Source:
 
             self.articles.pop()
             self.articles.insert(0, article)
+            
+        file = self.open_file()
+        self.feature_vector = update_feature_vector(file.read())
+        self.close_file(file)
 
     
     def get_description(self) -> str:
 
         return self.get_instances(1, "description")
 
+
     def get_title(self) -> str:
 
         return self.get_instances(1, "title")
-""" Testing the clone for Github- Ajay"""
