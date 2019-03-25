@@ -1,0 +1,16 @@
+{% extends 'base.html' %}
+{%  block content %}
+<h1><center><u>Home Page</u></center></h1>
+<form method="POST"> {% csrf_token %}
+    {{form.as_p}}
+    <input type='submit' value='Show Articles' />
+</form>
+
+
+<a href={{link1}}><h4>{{title1}}</h4></a>
+<p>{{description1}}</p>
+
+
+
+
+{% endblock %}
