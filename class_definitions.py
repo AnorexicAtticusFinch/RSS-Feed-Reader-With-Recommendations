@@ -71,7 +71,7 @@ class Article:
     
     def parse(self, text: str) -> str:
 
-        return text.replace("\\", "").replace("amp;", "").replace("![CDATA[", "").replace(" ]]", "")           
+        return text.replace("\\", "").replace("amp;", "").replace("<![CDATA[", "").replace("]]>", "").replace("xe2x80x99", "'").replace("xe2x80x94", "-").replace("xe2x80x98", "'")           
         
 
 
@@ -92,7 +92,7 @@ class Feed_Source:
         self.description = self.get_description()
         self.articles = self.get_articles(10)
         file = self.open_file()
-        self.feature_vector = update_feature_vector(file.read())
+        #self.feature_vector = update_feature_vector(file.read())
         self.close_file(file)
 
 
@@ -232,6 +232,20 @@ class Feed_Source:
         descs = self.get_instances_from_items(items, "description")
         links = self.get_instances_from_items(items, "link")
 
+        for _ in range(len(descs)):
+            
+            if descs[_].find("/a&gt;") != -1:
+
+                descs[_] = descs[_][descs[_].find("/a&gt;") + 6 : ]
+
+            if descs[_].find("&lt;img") != -1:
+
+                descs[_] = descs[_][ : descs[_].find("&lt;img") ]
+            
+            if descs[_].startswith("rn") and descs[_].endswith("rn"):
+               
+                descs[_] = descs[_][3 : -2]
+
         articles = []
         for _ in range(len(items)):
 
@@ -276,7 +290,7 @@ class Feed_Source:
             self.articles.insert(0, article)
             
         file = self.open_file()
-        self.feature_vector = update_feature_vector(file.read())
+        #self.feature_vector = update_feature_vector(file.read())
         self.close_file(file)
 
     
