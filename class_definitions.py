@@ -1,4 +1,4 @@
-def update_feature_vector(xml_file : str) -> "list of floats": #NEEDS TO BE TESTED
+def update_feature_vector(xml_file : str) -> "list of floats":
 
     xml_file = xml_file.lower()
     file_categories = open("list_of_categories.txt", "r")
@@ -7,9 +7,18 @@ def update_feature_vector(xml_file : str) -> "list of floats": #NEEDS TO BE TEST
     for category in file_categories:
             
         vector.append(0)
+
+        if category[-1] == "\n":
+
+            category = category[ : -1]
+
         file_keywords = open(category + ".txt", "r")
 
         for keyword in file_keywords:
+
+            if keyword[-1] == "\n":
+
+                keyword = keyword[ : -1]
 
             vector[-1] += xml_file.count(keyword)
         
@@ -17,6 +26,11 @@ def update_feature_vector(xml_file : str) -> "list of floats": #NEEDS TO BE TEST
     
     file_categories.close()
     total_count = sum(vector)
+
+    if total_count == 0:
+        
+        return []
+
     vector = [element / total_count for element in vector]
     return vector
 
@@ -32,7 +46,7 @@ class Article:
 
         self.title = self.parse(title)
         self.description = self.parse(description)
-        self.link = link
+        self.link = self.parse(link)
 
 
     def __eq__(self, article_2) -> bool:
@@ -66,8 +80,6 @@ class Article:
 
         browser = webdriver.Chrome()
         browser.get(self.link)
-        #input() #NEEDS TO BE TESTED AT THE END
-
     
     def parse(self, text: str) -> str:
 
@@ -92,7 +104,7 @@ class Feed_Source:
         self.description = self.get_description()
         self.articles = self.get_articles(10)
         file = self.open_file()
-        #self.feature_vector = update_feature_vector(file.read())
+        self.feature_vector = update_feature_vector(file.read())
         self.close_file(file)
 
 
@@ -290,7 +302,7 @@ class Feed_Source:
             self.articles.insert(0, article)
             
         file = self.open_file()
-        #self.feature_vector = update_feature_vector(file.read())
+        self.feature_vector = update_feature_vector(file.read())
         self.close_file(file)
 
     
@@ -302,3 +314,4 @@ class Feed_Source:
     def get_title(self) -> str:
 
         return self.get_instances(1, "title")
+    
