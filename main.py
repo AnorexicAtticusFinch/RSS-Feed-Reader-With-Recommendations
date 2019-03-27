@@ -1,14 +1,16 @@
-"""
-Has to import from class_definitions.py
+from class_definitions import *
+from recommendations import *
 
-Options to allow the user to -
-1. Manually search for updates
-2. Add new sources
-3. Delete sources
-4. Settings to change the time interval for updates
+sl = Predefined_Sources()
+#gs = Feed_Source("test", "http://feeds.feedburner.com/ndtvsports-cricket")
+gs = Feed_Source("test", "http://feeds.feedburner.com/ndtvnews-top-stories")
 
-Updating every X seconds has to happen automatically
+for source in sl.list_of_sources:
+    print(source.feature_vector)
 
-Should show all the obtained articles
+print(gs.feature_vector)
 
-"""
+lst = sl.find_best_fits(gs)
+
+for source in lst:
+    print(source.link)
