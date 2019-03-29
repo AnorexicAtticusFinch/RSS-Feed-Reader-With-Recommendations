@@ -1,6 +1,6 @@
 {% extends 'base.html' %}
 {%  block content %}
-<h1><center><u>Home Page</u></center></h1>
+<h1><center><u>RSS Feed Reader With Recommendations</u></center></h1>
 <form method="POST"> {% csrf_token %}
     {{form.as_p}}
     <input type='submit' value='Show Articles' />
@@ -39,6 +39,22 @@
 <p>{{description10}}</p>
 
 <h2>Recommended Articles</h2>
+
+<a href={{1link}}><h4>{{1title}}</h4></a>
+<p>{{1description}}</p>
+
+<a href={{2link}}><h4>{{2title}}</h4></a>
+<p>{{2description}}</p>
+
+<a href={{3link}}><h4>{{3title}}</h4></a>
+<p>{{3description}}</p>
+
+<a href={{1_link}}><h4>{{1_title}}</h4></a>
+<p>{{1_description}}</p>
+
+<a href={{2_link}}><h4>{{2_title}}</h4></a>
+<p>{{2_description}}</p>
+
 
 
 {% endblock %}
