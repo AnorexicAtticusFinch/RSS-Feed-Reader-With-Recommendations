@@ -6,6 +6,15 @@
     <input type='submit' value='Show Articles' />
 </form>
 
+
+    <ul>
+    {% for i in Source %}
+    <li><a href=http://127.0.0.1:8000/{{forloop.counter}}>{{i.name}}</a></li>
+    {% endfor %}
+
+
+
+
 <h2>Articles</h2>
 
 <a href={{link1}}><h4>{{title1}}</h4></a>
@@ -54,7 +63,6 @@
 
 <a href={{2_link}}><h4>{{2_title}}</h4></a>
 <p>{{2_description}}</p>
-
 
 
 {% endblock %}
