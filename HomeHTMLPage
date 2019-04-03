@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>RSS Feed Reader</title>
+    <link rel="stylesheet" href = "css/style.css">
+      
+</head>    
+<body>
+        <h1><center><I>RSS Feed Reader</I></center></h1>  
+    <ul id="Source_Bar" >
+        <li>This is the li....</li>
+        <li>This is the li....</li>
+        <li>This is the li....</li>
+        <li>This is the li....</li>
+        <li>This is the li....</li>
+        <li>This is the li....</li>
+        <li>This is the li....</li>
+        <li>This is the li....</li>
+        <li>This is the li....</li>
+        <li>This is the li....</li>
+        <li>This is the li....</li>
+        <li>This is the li....</li>
+                    
+                    
+    </ul>
+     <div align = "right" >
+        <h3 id="title"><strong>Recommended Articles</strong> </h3>
+        <list id ="articles">
+            <li><a href = "{{link}}">Article Link 1 </a></li>
+             <li><a href = "{{link}}">Article Link 2</a></li>
+            <li><a href = "{{link}}">Article Link 3</a></li>
+            <li><a href = "{{link}}">Article Link 4</a></li>
+            <li><a href = "{{link}}">Article link 5</a></li>
+            <li><a href = "{{link}}">Article Link 6</a></li>
+            <li><a href = "{{link}}">Article Link 7</a></li>
+            <li><a href = "{{link}}">Article Link 8</a></li>
+            <li><a href = "{{link}}">Article Link 9</a></li>
+            <li><a href = "{{link}}">Article Link 10</a></li>
+        </list>
+    </div>    
+        <form id="user_input">
+           Source Link:<input type="link" placeholder="Enter Source link"><br>
+           Name       :<input type="text" placeholder="Name"><br>
+            <input type="submit"><br>
+        </form>     
+</body>
+
+</html>
