@@ -3,29 +3,17 @@
 <head>
     <meta charset="UTF-8">
     <title>RSS Feed Reader</title>
-     
-      
+    <link rel="Stylesheet" href = "css/RSSHome.css">        
 </head>    
 <body>
         <h1 id = "Heading"><center>RSS Feed Reader</center></h1>  
-        <!--h2 id="Source_bar_Heading">Previously Visited</h2--> 
+        <!--h2 id="Source_bar_Heading">Previously Visited</h2-->FAF8EA 
         <ul id="Source_Bar" >
                 {% for i in Source %}
                 <li><a href=http://127.0.0.1:8000/{{forloop.counter}}>{{i.name}}</a></li>
                 {% endfor %}
                     
-    </ul>
-     <div align = "bottom" >
-        <h3 id="title">Recommended Articles </h3>
-        <list id ="articles">
-            <li><a href = "{{1link}}">{{1title}} </a></li>
-             <li><a href = "{{2link}}">{{2title}}</a></li>
-            <li><a href = "{{3link}}">{{3title}}</a></li>
-            <li><a href = "{{1_link}}">{{1_title}}</a></li>
-            <li><a href = "{{2_link}}">{{2_title}}</a></li>
-           
-        </list>
-    </div>    
+    </ul>           
     <form method="POST" id="user_input"> {% csrf_token %}
             {{form.as_p}}
             <input type='submit' value='Show Articles' />
@@ -76,7 +64,20 @@
             </li>
           
        </list>
-   </div>           
+   </div>
+   
+   <div >  
+   <h3 id="title">Recommended Articles </h3>     
+        <list id ="articles">
+            <li><a href = "{{1link}}">{{1title}}
+                     </a></li><br>
+             <li><a href = "{{2link}}">{{2title}}</a></li><br>
+            <li><a href = "{{3link}}">{{3title}}</a></li><br>
+            <li><a href = "{{1_link}}">{{1_title}}</a></li><br>
+            <li><a href = "{{2_link}}">{{2_title}}</a></li><br>
+           
+        </list>            
+    </div>
 </body>
 
 </html>
