@@ -3,28 +3,19 @@
 <head>
     <meta charset="UTF-8">
     <title>RSS Feed Reader</title>
-    <link rel="stylesheet" href = "css/style.css">
+     
       
 </head>    
 <body>
         <h1 id = "Heading"><center>RSS Feed Reader</center></h1>  
-        <h2 id="Source_bar_Heading">Previously Visited</h2>   
+        <!--h2 id="Source_bar_Heading">Previously Visited</h2--> 
         <ul id="Source_Bar" >
-        <li>This is the li....</li>
-        <li>This is the li....</li>
-        <li>This is the li....</li>
-        <li>This is the li....</li>
-        <li>This is the li....</li>
-        <li>This is the li....</li>
-        <li>This is the li....</li>
-        <li>This is the li....</li>
-        <li>This is the li....</li>
-        <li>This is the li....</li>
-        <li>This is the li....</li>
-        <li>This is the li....</li>
+                {% for i in Source %}
+                <li><a href=http://127.0.0.1:8000/{{forloop.counter}}>{{i.name}}</a></li>
+                {% endfor %}
                     
     </ul>
-     <div align = "right" >
+     <div align = "bottom" >
         <h3 id="title">Recommended Articles </h3>
         <list id ="articles">
             <li><a href = "{{1link}}">{{1title}} </a></li>
@@ -35,54 +26,53 @@
            
         </list>
     </div>    
-        <form id="user_input">
-           Source Link : <input type="link" placeholder="Enter Source link"><br>
-           Name : <input type="text" placeholder="Name"><br>
-            <input type="submit"><br>
-        </form> 
+    <form method="POST" id="user_input"> {% csrf_token %}
+            {{form.as_p}}
+            <input type='submit' value='Show Articles' />
+        </form>
     </ul>
     <div  id = "main_id">
        <h3 id="main_title"> Main Articles </h3>
        <list id ="main_articles">
             <li>
-                    <a href = "{{1link}}">{{1title}}</a>
-                    <p>{{Description}}</p><br>
+                    <a href = "{{link1}}">{{title1}}</a>
+                    <p>{{description1}}</p><br>
             </li>
            <li>
-               <a href = "{{2link}}">{{2title}}</a>
-               <p>{{Description}}</p><br>
+               <a href = "{{link2}}">{{title2}}</a>
+               <p>{{description2}}</p><br>
             </li>
             <li>
-                    <a href = "{{3link}}">{{3title}}</a>
-                    <p>{{Description}}</p><br>
+                    <a href = "{{link3}}">{{title3}}</a>
+                    <p>{{description3}}</p><br>
             </li>
             <li>
-                    <a href = "{{4link}}">{{4title}}</a>
-                    <p>{{Description}}</p><br>
+                    <a href = "{{link4}}">{{title4}}</a>
+                    <p>{{description4}}</p><br>
             </li>
             <li>
-                    <a href = "{{5link}}">{{5title}}</a>
-                    <p>{{Description}}</p><br>
+                    <a href = "{{link5}}">{{title5}}</a>
+                    <p>{{description5}}</p><br>
             </li>
             <li>
-                    <a href = "{{6ink}}">{{6title}}</a>
-                    <p>{{Description}}</p><br>
+                    <a href = "{{link6}}">{{title6}}</a>
+                    <p>{{description6}}</p><br>
             </li>
             <li>
-                    <a href = "{{7link}}">{{7title}}</a>
-                    <p>{{Description}}</p><br>
+                    <a href = "{{link7}}">{{title7}}</a>
+                    <p>{{description7}}</p><br>
             </li>
             <li>
-                    <a href = "{{8link}}">{{8title}}</a>
-                    <p>{{Description}}</p><br>
+                    <a href = "{{link8}}">{{title8}}</a>
+                    <p>{{description8}}</p><br>
             </li>
             <li>
-                    <a href = "{{9link}}">{{9title}}</a>
-                    <p>{{Description}}</p><br>
+                    <a href = "{{link9}}">{{title9}}</a>
+                    <p>{{description9}}</p><br>
             </li>
             <li>
-                    <a href = "{{10link}}">{{10title}}</a>
-                    <p>{{Description}}</p><br>
+                    <a href = "{{link10}}">{{title10}}</a>
+                    <p>{{description10}}</p><br>
             </li>
           
        </list>
