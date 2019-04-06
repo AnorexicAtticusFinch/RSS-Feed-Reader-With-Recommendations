@@ -12,16 +12,17 @@ body{
     width:19.5%;
     height:700px;
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    font-size: 15px;
+    font-size: 12px;
     line-height: 1.5;
     list-style: none;
     position: absolute;
     top: 120px;
     right:0px;       
+    color: #D5D5D5;
    
 }
 #title{
-    padding-right: 6.5%;
+    padding-right: 6.25%;
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     font-weight: 110;
     position: absolute;
@@ -42,12 +43,14 @@ body{
     width: 310px;
     height: 400px;
     overflow: scroll;
-    line-height: 5em;
+    line-height: 2em;
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    font-size: 150%;
     background-color: ##007373;
     margin-bottom: 30%;
     position: absolute;
     top: 100px; 
+    color: rgb(27, 27, 27);
 }
 
 #user_input{
@@ -57,6 +60,7 @@ body{
     left: 0px;
     top: 500px; 
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    color: #EFEFEF;
 }
 #Heading{
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
@@ -73,8 +77,8 @@ body{
     list-style: none;
     line-height: 1.5;
     position: absolute;
-    width: 905px;
-    background-color:;
+    width: 900px;
+    color: rgb(27, 27, 27);
 }
 
 
@@ -109,4 +113,12 @@ body{
   ::-webkit-scrollbar-thumb:hover {
     background: #888;  
 }
-
+a:link{
+    color: rgb(27, 27, 27);
+}
+a:visited{
+    color: rgb(27, 27, 27);
+}
+a{
+    font-size: 130%;
+}
