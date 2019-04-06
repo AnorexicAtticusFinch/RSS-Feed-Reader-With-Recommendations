@@ -1,20 +1,44 @@
-sports
+sport
 cricket
 ipl
 league
 premier
 india
 rcb
+kkr
+csk
+mumbai indians
+kolkata knight riders
+chennai super kings
+delhi capitals
+kings xi punjab
+rajasthan royals
+royal challengers bangalore
+sunrisers hyderabad
 bcci
 ball
 badminton
 bat
 field
 grass
-stumb
+stump
 bowl
 umpire
 score
 goal
 wicket
 player
+hockey
+golf
+skat
+swim
+tennis
+shuttle
+racquet
+racket
+stadium
+volley
+runs
+soccer
+captain
+boundary

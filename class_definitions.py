@@ -278,7 +278,7 @@ class Feed_Source:
         new_titles = self.get_instances(12, "title")
         new_articles_num = 0
 
-        if(len(new_titles) > len(self.articles) + 2):
+        if(len(new_titles) > len(self.articles)):
 
             self.articles = self.get_articles(len(new_titles))
             return
@@ -314,4 +314,3 @@ class Feed_Source:
     def get_title(self) -> str:
 
         return self.get_instances(1, "title")
-    
