@@ -28,22 +28,22 @@ body{
     padding: 5px;
     box-sizing: border-box;
     width: 300px;
-    height: 500px;
+    height: 400px;
     overflow: scroll;
     line-height: 5em;
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     background-color: #C1C5C8;
     margin-bottom: 30%;
-    position: relative; 
+    position: fixed; 
 
 }
 
 #user_input{
     float: left;
     line-height: 2.5;
-    position: absolute;
+    position: fixed;
     left: 30px;
-    top: 650px; 
+    top: 500px; 
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
 #Heading{
@@ -59,7 +59,8 @@ body{
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     font-weight: 120;
     list-style: none;
-    line-height: 1.5; 
+    line-height: 1.5;
+    border-right: 300px; 
 }
 
 #main_title{
