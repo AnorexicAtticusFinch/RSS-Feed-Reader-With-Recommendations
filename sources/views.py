@@ -3,6 +3,8 @@ from .models import Source
 from .forms import SourceForm
 from recommendations import Predefined_Sources
 from class_definitions import Feed_Source
+from django.template.context import RequestContext
+
 
 # Create your views here.
 
@@ -18,7 +20,6 @@ def home_view(request,*args,**kwargs):
         name=form.cleaned_data['name']
         l=form.cleaned_data['link']
         k=False
-        g=0
     
         #form.save()
         for i in Source.objects.all():
@@ -65,15 +66,32 @@ def home_view(request,*args,**kwargs):
 def item_view(request,pk):
     sourc=Source.objects.get(pk=pk)
     context={}
-    try:
-        f= Feed_Source(sourc.name,sourc.link)
-        context['name']=sourc.name
-        context['link']=sourc.link
-        for i in range(1, len(f.articles) + 1):
-            context['link'+str(i)]=f.articles[i-1].link
-            context['title'+str(i)]=f.articles[i-1].title
-            context['description'+str(i)]=f.articles[i-1].description
-    except:
-        print("We have a problem!!!!")
-    return render(request,"saved.html",context)
+    f= Feed_Source(sourc.name,sourc.link)
+
+    context['name']=sourc.name        
+    context['link']=sourc.link
+
+    for i in range(1, len(f.articles) + 1):
+        context['link'+str(i)]=f.articles[i-1].link
+        context['title'+str(i)]=f.articles[i-1].title
+        context['description'+str(i)]=f.articles[i-1].description
+
+    sou = Source.objects.all()
+    context['Source']=sou
+
+    sl= Predefined_Sources()
+
+    lst = sl.find_best_fits(f)
+
+    for i in range(1,len(lst[0].articles)+1):
+        context[str(i)+'link']=lst[0].articles[i-1].link
+        context[str(i)+'title']=lst[0].articles[i-1].title
+        context[str(i)+'description']=lst[0].articles[i-1].description
+
+    for i in range(1,len(lst[1].articles)+1):
+        context[str(i)+'_link']=lst[1].articles[i-1].link
+        context[str(i)+'_title']=lst[1].articles[i-1].title
+        context[str(i)+'_description']=lst[1].articles[i-1].description
+        
     
+    return render(request,"saved.html",context) 
