@@ -10,8 +10,6 @@ https://www.thehindu.com/news/national/feeder/default.rss
 https://www.thehindu.com/business/feeder/default.rss
 https://www.thehindu.com/sport/feeder/default.rss
 https://www.thehindu.com/sport/cricket/feeder/default.rss
-http://rss.cnn.com/rss/edition_asia.rss
-http://rss.cnn.com/rss/edition_sport.rss
 https://timesofindia.indiatimes.com/rssfeeds/-2128672765.cms
 https://timesofindia.indiatimes.com/rssfeeds/5880659.cms
 https://timesofindia.indiatimes.com/rssfeeds/1081479906.cms
