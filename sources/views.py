@@ -82,7 +82,7 @@ def home_view(request,*args,**kwargs):
         
     #print(f.articles)'''
     
-    return render(request,"base1.html",context)
+    return render(request,"home.html",context)
 
 
 def item_view(request,pk):
@@ -116,5 +116,5 @@ def item_view(request,pk):
         context[str(i)+'_description']=lst[1].articles[i-1].description
         
     
-    return render(request,"source1.html",context)
+    return render(request,"saved.html",context)
     
